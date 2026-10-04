@@ -30,24 +30,25 @@ is in `appsettings.json`. The 8.x rapid-release build did not load on Windows 10
 
 ## Hosting
 
-Three pieces are needed: a MongoDB database (e.g. a free MongoDB Atlas cluster), the API, and the static frontend.
+One site serves everything: the API lives under `/api`, Swagger under `/swagger`, and the Angular storefront and admin
+are served from `backend/wwwroot` for every other path (same origin, so no CORS setup). You only need a hosted MongoDB
+(for example a free MongoDB Atlas cluster) besides the site itself.
 
-**API** (`backend/Dockerfile`, listens on port 8080; set these environment variables):
+**Deploy**: build root is `backend/` (a single `ECommerce.Api.csproj`). Set these as environment variables (or in an
+`appsettings.Production.json` kept out of git):
 
 | Variable | Value |
 |---|---|
-| `MongoDb__ConnectionString` | your MongoDB connection string |
+| `MongoDb__ConnectionString` | your MongoDB connection string (the app cannot start without it) |
 | `MongoDb__DatabaseName` | e.g. `ecommerce` |
 | `Jwt__Secret` | a long random string (32+ characters); the API refuses to start in Production with the dev default |
 | `Seed__AdminPassword` | the admin password to create on first start (must not be `Admin@123` in Production) |
-| `Cors__AllowedOrigins__0` | your frontend URL, e.g. `https://my-shop.example.com` |
 
-**Frontend**: set `apiUrl` in `frontend/src/environments/environment.ts` to your deployed API (ending in `/api`), then
-`cd frontend && npm ci && npm run build`. Publish `frontend/dist/ecommerce-web/browser` on any static host
-(Netlify, Vercel, GitHub Pages, ...) with single-page-app fallback to `index.html`.
+**Updating the storefront**: `backend/wwwroot` holds the built frontend and is committed. After changing anything in
+`frontend/`, run `powershell -ExecutionPolicy Bypass -File .\build-frontend.ps1`, commit `backend/wwwroot`, and redeploy.
+`backend/Dockerfile` is provided for container hosts (listens on 8080) but has not been test-built here.
 
-The Dockerfile has not been test-built on this machine. Payment, SMS and Google login are still the mocked
-providers described below.
+Payment, SMS and Google login are still the mocked providers described below.
 
 ## Layout
 

@@ -1,0 +1,1 @@
+function r(e){switch(e){case`Delivered`:return`ok`;case`Cancelled`:return`bad`;case`Returned`:case`ReturnRequested`:return`warn`;default:return``}}var t=[`Placed`,`Confirmed`,`Shipped`,`Delivered`,`Cancelled`,`ReturnRequested`,`Returned`];export{t as n,r as t};

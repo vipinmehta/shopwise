@@ -1,4 +1,4 @@
-// Production build. Set this to your deployed API's base URL (including /api) before running `ng build`.
+// Production build: the storefront is served by the API site itself, so the API is on the same origin.
 export const environment = {
-  apiUrl: 'https://YOUR-API-HOST/api'
+  apiUrl: '/api'
 };
