@@ -1,0 +1,18 @@
+.top { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+.top .container { padding-top: 12px; padding-bottom: 12px; }
+.brand { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+.brand:hover { text-decoration: none; }
+.searchbar { min-width: 180px; max-width: 420px; }
+nav a { color: var(--text); font-size: .92rem; }
+nav a.active { color: var(--primary); font-weight: 600; }
+nav a.btn-primary { color: #fff; }
+.catbar { border-top: 1px solid var(--border); background: #fafbfc; font-size: .9rem; }
+.catbar .container { padding-top: 6px; padding-bottom: 6px; gap: 6px 22px; }
+.catbar a { color: var(--text); padding: 2px 0; }
+.catbar .group { display: inline-flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.catbar .parent { font-weight: 700; color: var(--primary); }
+.catbar .all { font-weight: 600; }
+.foot { border-top: 1px solid var(--border); padding: 20px 0; margin-top: 24px; }
+.toasts { position: fixed; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 50; }
+.toast { background: #1c2430; color: #fff; padding: 10px 16px; border-radius: 8px; box-shadow: 0 6px 20px rgba(0, 0, 0, .2); }
+.toast.err { background: var(--danger); }

@@ -1,0 +1,49 @@
+<header class="top">
+  <div class="container row spread">
+    <a routerLink="/" class="brand">Shopwise</a>
+    <form class="searchbar grow" (ngSubmit)="doSearch()">
+      <input name="q" type="search" placeholder="Search products…" [ngModel]="search()" (ngModelChange)="search.set($event)" />
+    </form>
+    <nav class="row">
+      @if (auth.isAdmin()) { <a routerLink="/admin" routerLinkActive="active">Admin</a> }
+      @if (auth.isLoggedIn()) {
+        <a routerLink="/wishlist" routerLinkActive="active">Wishlist ({{ cart.wishlistCount() }})</a>
+        <a routerLink="/orders" routerLinkActive="active">Orders</a>
+        <a routerLink="/cart" routerLinkActive="active">Cart ({{ cart.count() }})</a>
+        <span class="muted small">Hi, {{ auth.session()?.name }}</span>
+        <button type="button" class="btn-sm" (click)="auth.logout()">Logout</button>
+      } @else {
+        <a routerLink="/login" class="btn btn-primary btn-sm">Login / Sign up</a>
+      }
+    </nav>
+  </div>
+  @if (menu().length) {
+    <div class="catbar">
+      <div class="container row">
+        <a routerLink="/" [queryParams]="{}" class="all">All</a>
+        @for (g of menu(); track g.parent.id) {
+          <span class="group">
+            <a [routerLink]="['/']" [queryParams]="{ category: g.parent.id }" class="parent">{{ g.parent.name }}</a>
+            @for (c of g.children; track c.id) {
+              <a [routerLink]="['/']" [queryParams]="{ category: c.id }">{{ c.label }}</a>
+            }
+          </span>
+        }
+      </div>
+    </div>
+  }
+</header>
+
+<main class="container page">
+  <router-outlet />
+</main>
+
+<footer class="foot">
+  <div class="container muted small">© Shopwise demo store</div>
+</footer>
+
+<div class="toasts">
+  @for (t of toast.toasts(); track t.id) {
+    <div class="toast" [class.err]="t.kind === 'error'">{{ t.text }}</div>
+  }
+</div>
