@@ -14,14 +14,14 @@ powershell -ExecutionPolicy Bypass -File .\stop.ps1
 | Store | http://localhost:4200 |
 | API + Swagger | http://localhost:5211/swagger |
 
-Seeded admin: `admin@example.com` / `Admin@123` (set under `Seed` in `backend/ECommerce.Api/appsettings.json`).
+Seeded admin: `admin@example.com` / `Admin@123` (set under `Seed` in `backend/appsettings.json`).
 On first start the demo catalog is seeded: Men and Women categories, each with T-Shirts, Jeans, Shoes and Sneakers
 (88 products) with sizes, stock, size charts, reviews and real product photos, plus the coupons
 `WELCOME10` (10%, min ₹500), `FLAT200` (₹200 off, min ₹1,500) and `SAVE20` (20%, min ₹3,000).
 To wipe products, reviews and categories and re-seed, start the API once with `Seed__ResetCatalog=true`.
 
 Product photos are hotlinked from Unsplash (free licence) and listed in
-`backend/ECommerce.Infrastructure/Seed/PhotoCatalog.cs` with the colour and style taken from each photo's description,
+`backend/Infrastructure/Seed/PhotoCatalog.cs` with the colour and style taken from each photo's description,
 so they need internet access. Replace them with your own images through the admin product form.
 
 MongoDB runs as a portable process from `tools/mongodb` (not committed) with data in `data/db`. If you have MongoDB
@@ -51,8 +51,10 @@ providers described below.
 
 ## Layout
 
-- `backend/` has four projects: `Domain` (Mongo documents), `Application` (DTOs and service interfaces),
-  `Infrastructure` (Mongo context, services, mocked providers), `Api` (controllers, JWT, Swagger).
+- `backend/` is a single project (`ECommerce.Api.csproj`, so any builder that looks for a `.csproj` in the folder
+  works; set the build root to `backend`) organised in folders: `Domain` (Mongo documents), `Application` (DTOs and
+  service interfaces), `Infrastructure` (Mongo context, services, mocked providers), `Api` (controllers, middleware),
+  plus `Program.cs` for wiring, JWT and Swagger.
 - `frontend/src/app/`: `core/` (auth, API client, cart state, guards), `shared/`, `features/`
   (auth, catalog, cart, checkout, orders, admin).
 
@@ -64,7 +66,7 @@ providers described below.
 | Mobile OTP | `IOtpSender` | `ConsoleOtpSender`: OTP is written to the API log |
 | Google login | `IGoogleTokenValidator` | `DevGoogleTokenValidator`: accepts a base64 JSON `{sub,email,name}`; the login page has a simulated Google form |
 
-Register replacements in `backend/ECommerce.Api/Program.cs`. Before going live, change `Jwt:Secret`.
+Register replacements in `backend/Program.cs`. Before going live, change `Jwt:Secret`.
 
 ## Feature map
 

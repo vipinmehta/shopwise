@@ -16,7 +16,7 @@ if (-not (Get-NetTCPConnection -LocalPort 27017 -State Listen -ErrorAction Silen
 }
 
 if (-not (Get-NetTCPConnection -LocalPort 5211 -State Listen -ErrorAction SilentlyContinue)) {
-    Start-Process dotnet -ArgumentList 'run', '--no-launch-profile', '--urls', 'http://localhost:5211' -WorkingDirectory "$root\backend\ECommerce.Api" -WindowStyle Hidden `
+    Start-Process dotnet -ArgumentList 'run', '--no-launch-profile', '--urls', 'http://localhost:5211' -WorkingDirectory "$root\backend" -WindowStyle Hidden `
         -RedirectStandardOutput "$root\data\log\api.out.log" -RedirectStandardError "$root\data\log\api.err.log"
 }
 
